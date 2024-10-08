@@ -1,15 +1,14 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
-import MyCategories from "@/components/Category";
 import PlusSign from "../../public/icons/PlusSign";
 import OneRecord from "../components/OneRecord";
 import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
-
-import AddRecord from "@/components/AddRecord";
 import axios from "axios";
+import MyCategories from "../components/Category";
+import AddRecord from "../components/AddRecord";
 
 const categories = [
   "Food & Drinks",

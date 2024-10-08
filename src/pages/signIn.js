@@ -17,9 +17,10 @@ const SignIn = () => {
         password: password,
       })
       .then(function (response) {
+        // console.log(response);
         if (response.data.user.length === 1) {
-          console.log(response.data.user[0].id);
           localStorage.setItem("user_id", response.data.user[0].id);
+          console.log(response.data.user[0].id);
           router.push("/");
         } else {
           toast.error("unsuccessful");

@@ -8,8 +8,6 @@ const AddRecord = (props) => {
   const [categories, setCategories] = useState([]);
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
   const [description, setDescription] = useState("");
   const [transactionType, setTransactionType] = useState("EXP");
   const [name, setName] = useState("");
@@ -37,7 +35,7 @@ const AddRecord = (props) => {
   }, []);
 
   const handleAdd = async () => {
-    const user_id = localStorage.getItem("lastname");
+    const user_id = localStorage.getItem("user_id");
     await axios
       .post("http://localhost:8000/transaction", {
         user_id: user_id,
@@ -137,31 +135,9 @@ const AddRecord = (props) => {
                   ))}
                 </select>
               </div>
-              <div className="flex gap-2">
-                <div className="flex flex-col gap-2 w-full">
-                  <p>Date</p>
-                  <input
-                    onChange={(e) => setDate(e.target.value)}
-                    type="date"
-                    name="date"
-                    defaultValue={`${year}-${month}-${day}`}
-                    className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
-                  />
-                </div>
-                <div className="flex flex-col gap-2 w-full">
-                  <p>Time</p>
-                  <input
-                    onChange={(e) => setTime(e.target.value)}
-                    name="time"
-                    type="time"
-                    defaultValue={`${hour}:${minutes}`}
-                    className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
-                  />
-                </div>
-              </div>
             </div>
             <button
-              // onClick={() => handleAdd()}
+              onClick={() => handleAdd()}
               type="submit"
               className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
               style={{ backgroundColor: buttonColor }}

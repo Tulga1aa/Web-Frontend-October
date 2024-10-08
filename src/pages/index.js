@@ -1,14 +1,14 @@
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
-import MyCategories from "@/components/Category";
-import PlusSign from "../../public/icons/PlusSign";
 import OneRecord from "../components/OneRecord";
-import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
+import { FaChevronLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
-import AddRecord from "@/components/AddRecord";
 import axios from "axios";
+import AddRecord from "../components/AddRecord";
+import { SideBar } from "../components/Sidebar";
+import { categoryIconByCategoryName } from "../util/findCategoryIcon";
 
 const categories = [
   "Food & Drinks",
@@ -24,100 +24,7 @@ const categories = [
   "Income",
   "Others",
 ];
-const records = [
-  [
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-  ],
-  [
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-  ],
-];
+
 let checked = [
   "true",
   "true",
@@ -134,14 +41,44 @@ let checked = [
 ];
 const Home = () => {
   const [showAdd, setShowAdd] = useState(false);
-
   const [selected, setSelected] = useState("All");
   const [myRecords, setRecords] = useState([]);
-
   const [selectedCategories, setSelectedCategories] = useState(categories);
   const [selectedEyes, setSelectedEyes] = useState(checked);
-
   const [checkedCategories, setCheckedCategories] = useState(categories);
+  const [filter, setFilter] = useState("All");
+  const [allRecords, setAllRecords] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/transaction")
+      .then(function (response) {
+        setRecords(response.data?.transactions);
+        setAllRecords(response.data?.transactions);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  const handleFilterChange = (selectedFilter) => {
+    setFilter(selectedFilter);
+
+    if (selectedFilter === "All") {
+      setRecords(allRecords);
+    } else if (selectedFilter === "Income") {
+      const incomeRecords = allRecords?.filter(
+        (record) => record.transactiontype === "INC"
+      );
+
+      setRecords(incomeRecords);
+    } else if (selectedFilter === "Expense") {
+      const expenseRecords = allRecords?.filter(
+        (record) => record.transactiontype === "EXP"
+      );
+      setRecords(expenseRecords);
+    }
+  };
 
   const handleCategory = (input, index) => {
     let myCategories = [...selectedEyes];
@@ -160,25 +97,6 @@ const Home = () => {
     setCheckedCategories();
   };
 
-  const handleExpense = () => {
-    const filtered = records.map((day) =>
-      day.filter((oneRecord) => oneRecord.money.includes("-"))
-    );
-    setRecords(filtered);
-  };
-
-  const handleIncome = () => {
-    const filtered = records.map((day) =>
-      day.filter((oneRecord) => oneRecord.money.includes("+"))
-    );
-
-    setRecords(filtered);
-  };
-
-  const handleAll = () => {
-    setRecords(records);
-  };
-
   const handleChange = (option) => {
     setSelected(option);
   };
@@ -186,18 +104,6 @@ const Home = () => {
   const handleAdd = () => {
     setShowAdd(!showAdd);
   };
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/transaction")
-      .then(function (response) {
-        setRecords(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .finally(function () {});
-  }, []);
 
   return (
     <div>
@@ -211,78 +117,18 @@ const Home = () => {
         <Navbar />
 
         <div className="flex gap-6">
-          <div className="bg-white flex flex-col px-6 py-4 w-[282px] gap-6 rounded-xl h-fit border border-[#E5E7EB]">
-            <div className="flex flex-col gap-6">
-              <p> Records </p>
-              <button
-                onClick={() => handleAdd()}
-                className="flex gap-1 w-[225px] bg-[#0166FF] rounded-3xl text-white items-center justify-center"
-              >
-                <PlusSign color="white" /> Add
-              </button>
-            </div>
-            <input
-              placeholder="Search"
-              className="border border-[#D1D5DB] rounded-lg px-4 py-1"
-            />
-            <div className="flex flex-col gap-1">
-              <p className="font-semibold text-base text-[#1F2937] mb-3">
-                Types
-              </p>
-              <div className="flex items-center gap-2 px-3 py-1.5">
-                <input
-                  type="checkbox"
-                  checked={"All" === selected}
-                  className="checkbox"
-                  onChange={() => handleChange("All")}
-                  onClick={() => handleAll()}
-                />
-                All
-              </div>
-              <div className="flex items-center gap-2 px-3 py-1.5">
-                <input
-                  type="checkbox"
-                  checked={"Income" === selected}
-                  className="checkbox"
-                  onChange={() => handleChange("Income")}
-                  onClick={() => handleIncome()}
-                />
-                Income
-              </div>
-              <div className="flex items-center gap-2 px-3 py-1.5">
-                <input
-                  type="checkbox"
-                  checked={"Expense" === selected}
-                  className="checkbox"
-                  onChange={() => handleChange("Expense")}
-                  onClick={() => handleExpense()}
-                />
-                Expense
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-between">
-                <p className="font-semibold text-base">Category</p>
-                <p className="font-normal text-base opacity-20"> Clear </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                {categories.map((category1, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => handleCategory(selectedEyes[index], index)}
-                    >
-                      <MyCategories categoryName={category1} />
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex gap-2 py-1.5 pl-3 items-center">
-                <PlusSign color={"#0166FF"} />
-                <p>Add category </p>
-              </div>
-            </div>
-          </div>
+          <SideBar
+            handleAdd={handleAdd}
+            selected={selected}
+            categories={categories}
+            handleAll={() => handleFilterChange("All")}
+            handleChange={handleChange}
+            handleIncome={() => handleFilterChange("Income")}
+            handleExpense={() => handleFilterChange("Expense")}
+            handleCategory={handleCategory}
+            selectedEyes={selectedEyes}
+          />
+
           <div className="w-[894px] flex flex-col gap-4">
             <div className="flex justify-between">
               <div className="flex gap-4 items-center">
@@ -295,47 +141,28 @@ const Home = () => {
                 </div>
               </div>
               <select className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB]">
-                <option selected>Newest First</option>
+                <option defaultChecked>Newest First</option>
                 <option> Latest First </option>
               </select>
             </div>
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                {myRecords.transactions?.map((recordToday, index) => {
+                {myRecords?.map((recordToday, index) => {
                   return (
                     <OneRecord
                       key={index}
-                      text={recordToday.name}
+                      categoryname={recordToday?.categoryname}
+                      transactiontype={recordToday?.transactiontype}
                       image={recordToday.image}
-                      time={recordToday.time}
+                      time={recordToday.transactioncreatedat}
                       color={recordToday.color}
                       money={recordToday.amount}
-                      iconColor={
-                        recordToday.transactionType === "EXP"
-                          ? "#0166FF"
-                          : "#FF4545"
-                      }
                     />
                   );
                 })}
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
-              <div className="flex flex-col gap-3">
-                {records[0].map((recordToday, index) => {
-                  return (
-                    <OneRecord
-                      key={index}
-                      text={recordToday.text}
-                      image={recordToday.image}
-                      time={recordToday.time}
-                      color={recordToday.color}
-                      money={recordToday.money}
-                      iconColor={recordToday.iconColor}
-                    />
-                  );
-                })}
-              </div>
             </div>
           </div>
         </div>
