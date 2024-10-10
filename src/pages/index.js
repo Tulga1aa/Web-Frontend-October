@@ -39,6 +39,7 @@ let checked = [
   "true",
   "true",
 ];
+let userid = 0;
 const Home = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [selected, setSelected] = useState("All");
@@ -49,12 +50,15 @@ const Home = () => {
   const [filter, setFilter] = useState("All");
   const [allRecords, setAllRecords] = useState([]);
 
+  if (typeof window !== "undefined") {
+    userid = localStorage.getItem("user_id");
+  }
+
   useEffect(() => {
     axios
-      .get("http://localhost:8000/transaction")
+      .post("http://localhost:8000/transaction/userid", { userid: userid })
       .then(function (response) {
-        setRecords(response.data?.transactions);
-        setAllRecords(response.data?.transactions);
+        setRecords(response.data.userTransactions);
       })
       .catch(function (error) {
         console.log(error);

@@ -22,16 +22,15 @@ const OneRecord = (props) => {
 
         <div className="flex flex-col">
           <p className="font-normal text-base">{categoryname}</p>
-          <p className="font-normal text-xs text-[#6B7280]">
-            {format(new Date(time), "HH:mm")}
-          </p>
+          <p className="font-normal text-xs text-[#6B7280]">{time}</p>
         </div>
       </div>
       <p
         className={`font-semibold text-base text-[${color}]`}
         style={{ text: color }}
       >
-        {money}
+        {" "}
+        {categoryname},{money},{transactiontype}
       </p>
     </div>
   );

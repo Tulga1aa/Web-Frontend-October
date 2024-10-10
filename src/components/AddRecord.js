@@ -36,6 +36,7 @@ const AddRecord = (props) => {
 
   const handleAdd = async () => {
     const user_id = localStorage.getItem("user_id");
+    console.log(user_id);
     await axios
       .post("http://localhost:8000/transaction", {
         user_id: user_id,
@@ -53,6 +54,9 @@ const AddRecord = (props) => {
       })
       .finally(function () {});
   };
+  const handleCategory = (event) => {
+    setCategory(event.target.value);
+  };
 
   const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
   const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
@@ -69,7 +73,7 @@ const AddRecord = (props) => {
   const month = "0" + String(today.getMonth());
   const hour = String(today.getHours());
   const minutes = String(today.getMinutes());
-
+  console.log(category);
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
       <div className="py-5 px-6 flex justify-between">
@@ -121,15 +125,15 @@ const AddRecord = (props) => {
                 <p> Category </p>
                 <select
                   className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg"
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={handleCategory}
                 >
                   <option defaultChecked> Find or choose category</option>
-                  <option value="Food" className="px-[18px] py-2 flex gap-3">
+                  <option value="1" className="px-[18px] py-2 flex gap-3">
                     Food
                   </option>
-                  <option value="Home"> Home </option>
+                  <option value="2"> Home </option>
                   {categories?.categories?.map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <option key={category.id} value={category.categoryid}>
                       {category.name}
                     </option>
                   ))}
