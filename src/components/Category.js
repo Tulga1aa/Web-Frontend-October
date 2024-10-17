@@ -3,7 +3,7 @@ import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
 import { useState } from "react";
 
 const MyCategories = (props) => {
-  const { categoryName, ischecked } = props;
+  const { name, ischecked } = props;
   const [checked, setChecked] = useState("true");
   const handleClick = () => {
     if (checked === "true") {
@@ -19,7 +19,7 @@ const MyCategories = (props) => {
       className="w-full pl-3 py-1.5 flex gap-2 items-center"
     >
       {icon}
-      <p className="font-normal text-base text-[#1F2937]">{categoryName}</p>
+      <p className="font-normal text-base text-[#1F2937]">{name}</p>
     </div>
   );
 };

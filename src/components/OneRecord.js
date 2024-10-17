@@ -2,7 +2,7 @@ import { categoryIconByCategoryName } from "../util/findCategoryIcon";
 import { format } from "date-fns";
 
 const OneRecord = (props) => {
-  const { time, color, money, categoryname, transactiontype } = props;
+  const { time, color, money, name, transactiontype } = props;
 
   const iconColor = transactiontype === "EXP" ? "#0166FF" : "#FF4545";
 
@@ -21,7 +21,7 @@ const OneRecord = (props) => {
         </div>
 
         <div className="flex flex-col">
-          <p className="font-normal text-base">{categoryname}</p>
+          <p className="font-normal text-base">{name}</p>
           <p className="font-normal text-xs text-[#6B7280]">{time}</p>
         </div>
       </div>
@@ -30,7 +30,7 @@ const OneRecord = (props) => {
         style={{ text: color }}
       >
         {" "}
-        {categoryname},{money},{transactiontype}
+        {name},{money},{transactiontype}
       </p>
     </div>
   );

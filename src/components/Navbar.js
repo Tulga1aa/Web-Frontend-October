@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "../../public/icons/Logo";
 
 const Navbar = (props) => {
@@ -5,9 +6,16 @@ const Navbar = (props) => {
   return (
     <div className="bg-white w-full px-[120px] py-4 flex justify-between max-w-screen-xl">
       <div className="flex gap-6 items-center">
-        <Logo />
-        <p> Dashboard </p>
-        <p> Records</p>
+        <Link href="/" className="cursor-pointer">
+          <Logo />
+          Home
+        </Link>
+        <Link href="/dashboard" className="cursor-pointer">
+          Dashboard
+        </Link>
+        <Link href="/records" className="cursor-pointer">
+          Records
+        </Link>
       </div>
       <div className="flex items-center gap-6">
         <button

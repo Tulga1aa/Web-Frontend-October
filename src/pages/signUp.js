@@ -26,9 +26,16 @@ const SignUp = () => {
         password: password,
         avatar_img: "https://i.pravatar.cc/300",
       });
+      router.push("/signIn");
     }
   };
 
+  const resetInputValues = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setRePassword("");
+  };
   const handleName = (event) => {
     setName(event.target.value);
   };

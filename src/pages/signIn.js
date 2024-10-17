@@ -4,32 +4,16 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useAuthContext } from "../providers/AuthProvider";
 
 const SignIn = () => {
+  const { signin } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleLogin = async () => {
-    await axios
-      .post("http://localhost:8000/user/signin", {
-        email: email,
-        password: password,
-      })
-      .then(function (response) {
-        if (response.data.user.length === 1) {
-          localStorage.setItem("user_id", response.data.user[0].userid);
-          console.log(response.data.user[0].userid);
-          router.push("/");
-        } else {
-          toast.error("unsuccessful");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-        toast.error("unsuccessful");
-      })
-      .finally(function () {});
+    await signin(email, password);
   };
   return (
     <div className="flex w-screen h-screen">
