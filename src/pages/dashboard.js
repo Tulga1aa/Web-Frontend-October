@@ -9,7 +9,7 @@ import FoodExpense from "../../public/Icons/FoodExpenseIcon";
 import OneRecord from "../components/OneRecord";
 import moment from "moment";
 import Image from "next/image";
-// import AddRecord from "@/components/AddRecord";
+import AddRecord from "../components/AddRecord";
 import Router, { useRouter } from "next/router";
 import { useAuthContext } from "../providers/AuthProvider";
 
@@ -66,16 +66,8 @@ const Dashboard = () => {
         />
         <div className="flex flex-col gap-6 w-full px-[120px] max-w-screen-2xl">
           <div className="flex gap-6">
-            <div className="w-full rounded-[18px] bg-[#0166FF] ">
-              <img className="" />
-              <img
-                className="pt-[60px] pl-[190px] relative"
-                src="images/shape.svg"
-              />
-              <img
-                className="absolute pb-[40px] pl-[190px]"
-                src="images/NFC.svg "
-              />
+            <div className="w-full rounded-[18px] bg-[#0166FF] relative">
+          <img className="w-[416px] h-[236px]" src="/images/Large.png"/>
             </div>
             <Income
               userid={userid}

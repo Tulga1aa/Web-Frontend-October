@@ -4,13 +4,13 @@ import PlusSign from "../../public/icons/PlusSign";
 import OneRecord from "../components/OneRecord";
 import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
-import RentIcon from "../../public/icons/RentIcon";
-import FoodExpense from "../../public/icons/FoodExpenseIcon";
+import RentIcon from "../../public/Icons/RentIcon";
+import FoodExpense from "../../public/Icons/FoodExpenseIcon";
 import axios from "axios";
-import MyCategories from "../components/Category";
+import myCategory from "../components/Category";
 import AddRecord from "../components/AddRecord";
 
-const categories = [
+const myCategory = [
   "Food & Drinks",
   "Lending & Renting",
   "Shopping",
@@ -144,13 +144,13 @@ const Records = () => {
   const [checkedCategories, setCheckedCategories] = useState(categories);
 
   const handleCategory = (input, index) => {
-    let myCategories = [...selectedEyes];
+    let myCategory = [...selectedEyes];
     if (input == "true") {
-      myCategories[index] = "false";
+      myCategory[index] = "false";
     } else {
-      myCategories[index] = "true";
+      myCategory[index] = "true";
     }
-    setSelectedEyes(myCategories);
+    setSelectedEyes(myCategory);
     let filteredCategories = [];
     for (let i = 0; i < categories.length; i++) {
       if (selectedEyes[i] == "true") {
@@ -183,7 +183,7 @@ const Records = () => {
     setShowAdd(!showAdd);
   };
   const addRecord = () => {
-    axios.get("http://localhost:8000/transaction", {});
+    axios.get("http://localhost:8000/category", {});
   };
   // const opacity = showAdd === false ? "opacity-100" : "opacity-100";
   return (
@@ -259,7 +259,7 @@ const Records = () => {
                       key={index}
                       onClick={() => handleCategory(selectedEyes[index], index)}
                     >
-                      <MyCategories categoryName={category1} />
+                      <myCategory categoryName={category1} />
                     </div>
                   );
                 })}

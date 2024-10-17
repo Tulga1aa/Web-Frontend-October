@@ -1,26 +1,26 @@
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
-// import MyCategories from "@/components/Category";
+import myCategory from "../components/Category";
 import PlusSign from "../../public/icons/PlusSign";
 import OneRecord from "../components/OneRecord";
 import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
-// import LatestFirst from "@/components/LatestFirst";
-// import RentIcon from "../../public/icons/RentIcon ";
+import Filter from "../components/Filter";
+import RentIcon from "../../public/Icons/RentIcon";
 import FoodExpense from "../../public/Icons/FoodExpenseIcon";
-// import AddRecord from "@/components/AddRecord";
+
 import axios from "axios";
 import moment from "moment";
 import Router, { useRouter } from "next/router";
 import AddCategory from "../components/AddCategory";
 
-// import AddCategory from "@/components/AddCategory";
+import AddRecord from "../components/AddRecord";
 
 const records = [
   [
     {
       color: "#23E01F",
-      // image: <RentIcon />,
+      image: <RentIcon />,
       time: "14:00",
       text: "Lending & Renting",
       money: "+ 1,000₮",
@@ -111,7 +111,7 @@ const Home = () => {
       });
 
     axios
-      .post("http://localhost:8000/userid", {
+      .post("http://localhost:8000/transaction", {
         userid: userId,
         filter: filterTransactions,
         search: search,
@@ -172,12 +172,12 @@ const Home = () => {
     <div>
       {showAddCategory && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
-          <AddCategory onCloseModal={addCategory} categories={mycategories} />
+          <AddCategory onCloseModal={addCategory} category={mycategories} />
         </div>
       )}
       {showAdd && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
-          {/* <AddRecord onCloseModal={handleAdd} categories={mycategories} /> */}
+          <AddRecord onCloseModal={handleAdd} category={mycategories} />
         </div>
       )}
       <div
@@ -185,7 +185,7 @@ const Home = () => {
       >
         <Navbar
           onCloseModal={handleAdd}
-          categories={mycategories}
+          category={mycategories}
           dashboardStyle={"text-[#0F172A]"}
           recordsStyle={"font-semibold text-base text-[#0F172A]"}
         />
@@ -244,14 +244,14 @@ const Home = () => {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <p className="font-semibold text-base">Category</p>
-                <p className="font-normal text-base opacity-20"> Clear </p>
+                <p className="font-semibold text-base cursor-pointer">Category</p>
+                <p  className="font-normal text-base opacity-20 cursor-pointer"> Clear </p>
               </div>
               <div className="flex flex-col gap-2">
                 {[].map((category, index) => {
                   return (
                     <div key={index} onClick={() => handleCategory(category)}>
-                      <MyCategories categoryName={category.name} />
+                      <myCategory name={category.name} />
                     </div>
                   );
                 })}
@@ -284,14 +284,14 @@ const Home = () => {
                 <option> Latest First </option>
               </select>
             </div>
-            {/* {condition === "ASC" && (
-              <LatestFirst
+            {condition === "ASC" && (
+              <Filter
                 filter={filterTransactions}
                 userid={userid}
                 search={search}
                 categories={filteredCategories}
               />
-            )} */}
+            )}
             {condition === "DESC" && (
               <div className="flex flex-col gap-3">
                 <p className="font-semibold text-base"> Today </p>

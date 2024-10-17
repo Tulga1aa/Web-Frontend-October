@@ -24,7 +24,9 @@ const Navbar = (props) => {
         >
           + Record
         </button>
-        <div className="rounded-full w-10 h-10 bg-[url('/images/Profile.jpeg')]"></div>
+        <div>
+          <img className="rounded-full w-10 h-10 " src="/images/Profile.jpeg"/>
+        </div>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const AddRecord = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/category")
+      .get("http://localhost:8000/transaction")
       .then(function (response) {
         setCategories(response.data);
       })
@@ -35,16 +35,16 @@ const AddRecord = (props) => {
   }, []);
 
   const handleAdd = async () => {
-    const user_id = localStorage.getItem("user_id");
-    console.log(user_id);
+    const userid = localStorage.getItem("userid");
+    console.log(userid);
     await axios
-      .post("http://localhost:8000/transaction", {
-        user_id: user_id,
+      .post("http://localhost:8000/category", {
+        userid: userid,
         name: name,
         amount: amount,
         transaction_type: transactionType,
         description: description,
-        category_id: category,
+        categoryid: category,
       })
       .then(function (response) {
         console.log(response);
@@ -78,15 +78,15 @@ const AddRecord = (props) => {
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
       <div className="py-5 px-6 flex justify-between">
         <p className="font-semibold text-xl">Add Record</p>
-        <IoClose size={24} onClick={onCloseModal} />
+        <IoClose size={24} onClick={onCloseModal} className="cursor-pointer" />
       </div>
-      <div className="flex w-full">
-        <form onSubmit={handleAdd}>
+      <div>
+        <form className="flex w-full" onSubmit={handleAdd}>
           <div className="px-6 pt-5 pb-6 flex flex-col gap-5">
             <div className="rounded-[100px] bg-[#F3F4F6] flex gap-1">
               <div
                 onClick={() => handleIncomeOrExpense("Expense")}
-                className={`py-2 px-[55.5px] ${textColorExpense} font-normal text-base rounded-3xl bg-[${Expensebackground}]`}
+                className= {`py-2 px-[55.5px] ${textColorExpense} cursor-pointer font-normal text-base rounded-3xl bg-[${Expensebackground}]`}
                 style={{ backgroundColor: Expensebackground }}
               >
                 Expense
@@ -94,7 +94,7 @@ const AddRecord = (props) => {
               <div
                 onClick={() => handleIncomeOrExpense("Income")}
                 onChange={(e) => setTransactionType(e.target.value)}
-                className={`py-2 px-[55.5px] ${textColorIncome} font-normal text-base rounded-3xl bg-[${Incomebackground}]`}
+                className={`py-2 px-[55.5px] ${textColorIncome} cursor-pointer font-normal text-base rounded-3xl bg-[${Incomebackground}]`}
                 style={{ backgroundColor: Incomebackground }}
               >
                 Income
@@ -132,7 +132,7 @@ const AddRecord = (props) => {
                     Food
                   </option>
                   <option value="2"> Home </option>
-                  {categories?.categories?.map((category) => (
+                  {category?.category?.map((category) => (
                     <option key={category.id} value={category.categoryid}>
                       {category.name}
                     </option>

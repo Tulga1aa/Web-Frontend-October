@@ -2,7 +2,7 @@ import EyeIcon from "../../public/icons/EyeIcon";
 import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
 import { useState } from "react";
 
-const MyCategories = (props) => {
+const myCategory = (props) => {
   const { name, ischecked } = props;
   const [checked, setChecked] = useState("true");
   const handleClick = () => {
@@ -24,4 +24,4 @@ const MyCategories = (props) => {
   );
 };
 
-export default MyCategories;
+export default myCategory;
